@@ -1,0 +1,11 @@
+# @package _global_
+# EmLoco baseline: the Social-Trans backbone with the loss of a frozen EmLoco plausibility estimator.
+method: emloco
+model:
+  peft_type: none
+  position_encoding: none
+  inputs:
+    agent_relative: false
+train:
+  batch_size: 15
+  valueloss_w: 0.002

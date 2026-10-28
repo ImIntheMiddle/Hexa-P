@@ -1,0 +1,79 @@
+# @package _global_
+# Path-following AMP controller used to roll out locomotion in the physics pre-training.
+# The humanoid follows random target paths with its pelvis on flat ground.
+
+defaults:
+  - /agent/amp/agent
+  - /env/base_env
+  - /agent/ppo/models/transformer_actor
+  - /agent/ppo/models/mlp_critic
+  - /agent/amp/models/mlp_discriminator
+  - /env/path_follower
+
+num_envs: 4096
+
+env:
+  _target_: hexap.stage1.env.PelvisPathFollowing
+  config:
+    state_init: Data
+    power_reward_w: 0.0005
+    heading_reward_w: 0.2
+    max_episode_length: 145
+    humanoid_obs:
+      num_historical_steps: 16
+    path_follower_params:
+      num_traj_samples: 25
+      traj_sample_timestep: 0.2
+      enable_path_termination: False
+      height_conditioned: False
+      path_generator:
+        speed_min: 0.0005
+        use_naive_path_generator: True
+        adjust_root_vel: True
+        init_heading: True
+
+terrain:
+  config:
+    num_levels: 1
+
+agent:
+  config:
+    gradient_clip_val: 50
+    num_mini_epochs: 6
+    eval_metrics_every: 100
+    manual_save_every: 500
+    discriminator_batch_size: 1024
+    task_reward_w: 0.5
+    discriminator_reward_w: 0.5
+    modules:
+      path:
+        _target_: protomotions.agents.common.mlp.MLP_WithNorm
+        config:
+          normalize_obs: true
+          norm_clamp_value: 5
+          obs_key: path
+          layers:
+            - units: 256
+              activation: relu
+              use_layer_norm: false
+            - units: 256
+              activation: relu
+              use_layer_norm: false
+        num_in: ${env.config.path_follower_params.path_obs_size}
+        num_out: ${agent.config.model.config.actor.config.mu_model.config.transformer_token_size}
+    model:
+      config:
+        actor:
+          config:
+            mu_model:
+              config:
+                input_models:
+                  path: ${agent.config.modules.path}
+        critic:
+          config:
+            input_models:
+              path: ${agent.config.modules.path}
+    extra_inputs:
+      path: true
+      actual_waypoints: true
+      path_non_rotated: true

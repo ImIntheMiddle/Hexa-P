@@ -1,0 +1,73 @@
+# Stage 2: fine-tuning on a real dataset. Select the dataset and the method with
+# `dataset=<jta|jrdb|vru>` and `model=<hexap|social_trans|emloco>`.
+defaults:
+  - _self_
+  - dataset: jrdb
+  - model: hexap
+
+seed: 0
+exp_name: ${data.dataset}_${method}
+data_root: data
+out_dir: outputs/stage2/${exp_name}
+pretrained: null  # Stage-1 checkpoint (Hexa-P)
+emloco_checkpoint: null  # Stage-1 EmLoco plausibility estimator (EmLoco baseline)
+max_windows: 0  # >0 loads only this many windows per split (smoke tests)
+eval_batch_size: ${mul:5,${train.batch_size}}
+wandb:
+  enabled: false
+  project: hexa-p
+
+train:
+  batch_size: 20
+  epochs: 100
+  num_workers: 5
+  valueloss_w: 0.0
+  max_grad_norm: 1.0
+  optimizer:
+    type: AdamW
+    lr: 2.0e-4
+    weight_decay: 1.0e-4
+
+model:
+  input_track_size: ${data.input_track_size}
+  output_track_size: ${data.output_track_size}
+  dim_hidden: 128
+  token_num: 24
+  joints_3dpose: 23
+  num_layers_local: 6
+  num_layers_global: 3
+  num_heads: 4
+  dim_feedforward: 1024
+  dropout: 0.1
+  activation: relu
+  output_scale: 1
+  nmode: 5
+  peft_type: adapter
+  st_type: scratch
+  position_encoding: relative
+  adapter_bottleneck_ratio: 4
+  adapter_scale_init: 1
+  reward_masking: false
+  inputs:
+    agent_relative: true
+    fps: ${data.fps}
+    max_fps: 5.0
+    pose_mask: ${data.pose_mask}
+    mask_ratio_modality: 0.3
+    mask_ratio_frame: 1
+    mask_ratio_traj: 0.1
+    mask_ratio_joints: 1
+
+emloco:
+  output_track_size: ${data.output_track_size}
+  joints_3dpose: 23
+  pretraining: false
+  inputs:
+    fps: ${data.fps}
+    max_fps: 5.0
+    pose_mask: ${data.pose_mask}
+
+hydra:
+  run:
+    dir: ${out_dir}
+  output_subdir: null

@@ -1,0 +1,12 @@
+# @package _global_
+# The VRU windows are masked with the JTA joint layout, which the released weights were trained with.
+data:
+  dataset: vru
+  input_track_size: 4
+  output_track_size: 12
+  fps: 5
+  pose_mask: jta
+model:
+  adapter_bottleneck_ratio: 8  # adapter dimension r = 128 / 8 = 16
+train:
+  epochs: 50

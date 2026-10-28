@@ -1,0 +1,9 @@
+# @package _global_
+data:
+  dataset: jta
+  input_track_size: 9
+  output_track_size: 12
+  fps: 2.5
+  pose_mask: jta
+train:
+  epochs: 50

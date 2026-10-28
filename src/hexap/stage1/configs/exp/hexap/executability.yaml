@@ -1,0 +1,35 @@
+# @package _global_
+# Physical executability of predicted paths: the frozen controller walks the paths predicted by a
+# Stage-1 network in the simulation. Episodes start at the first frame of a reference clip and last
+# 50 control steps; the target paths come from a milder generator than in training.
+defaults:
+  - /exp/hexap/pretrain
+
+num_envs: 512
+headless: true
+
+motion_manager:
+  motion_sampling:
+    init_start_prob: 1.0
+
+env:
+  config:
+    max_episode_length: 50
+    enable_height_termination: true
+    path_follower_params:
+      enable_path_termination: false
+      path_generator:
+        adjust_root_vel: false
+        init_heading: false
+        speed_max: 5.0
+        accel_max: 2.0
+        sharp_turn_prob: 0.02
+
+agent:
+  _target_: hexap.executability.Executability
+  config:
+    exec_num_episodes: 4
+    exec_success_radius: 0.5
+    exec_out_csv: null
+    exec_record: 0  # number of rollouts per episode whose body positions are saved
+    exec_record_path: executability_rollouts.pt

@@ -1,0 +1,8 @@
+# @package _global_
+# Social-Trans baseline on the same backbone, trained from scratch without TaPE.
+method: social_trans
+model:
+  peft_type: none
+  position_encoding: none
+  inputs:
+    agent_relative: false

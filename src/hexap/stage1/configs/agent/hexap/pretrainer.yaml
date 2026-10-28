@@ -1,0 +1,64 @@
+# @package _global_
+# Joint pre-training of the Path-Head and the LocoVal-Head of the Hexa-P network on
+# rollouts of the frozen controller (`checkpoint=`).
+
+agent:
+  _target_: hexap.stage1.agent.HexaPPretrainer
+  _recursive_: False
+  config:
+    task_reward_w: 0.5
+    discriminator_reward_w: 1
+    gradient_clip_val: 1
+    batch_size: 64
+    num_steps: 145
+    num_mini_epochs: 1
+    locoval_checkpoint: null
+    locoval_historical_steps: 97
+    locoval_historical_conditioned_steps: 16
+    locoval_loss_w: 0.5
+    locoval_emloco_w: 0
+    locoval_barrier_w: 0
+    locoval_barrier_b: 0.02
+    locoval_weight_beta: 1
+    enable_pcgrad: true
+    enable_unc_weighting: true
+    locoval:
+      config:
+        inputs:
+          agent_relative: true
+          fps: ${eval:1/${env.config.path_follower_params.traj_sample_timestep}}
+          max_fps: ${eval:1/${env.config.path_follower_params.traj_sample_timestep}}
+          pose_mask: amass
+          mask_ratio_modality: 0
+          mask_ratio_frame: 0.0
+          mask_ratio_traj: 0.5
+          mask_ratio_joints: 1
+        input_track_size: ${eval:${env.config.humanoid_obs.num_historical_steps}+1}
+        output_track_size: ${eval:${env.config.path_follower_params.num_traj_samples}-1}
+        peft_type: none
+        st_type: none
+        position_encoding: none
+        dim_hidden: 128
+        token_num: 24
+        num_layers_local: 6
+        num_layers_global: 3
+        num_heads: 4
+        dim_feedforward: 1024
+        output_scale: 1
+        joints_3dpose: 23
+        dropout: 0.1
+        activation: relu
+        nmode: 5
+        adapter_bottleneck_ratio: 8
+        adapter_scale_init: 1
+        reward_masking: true
+        locoval_optimizer:
+          lr: 5e-4
+          weight_decay: 1e-4
+        locoval_scheduler:
+          warmup_epochs: 100
+          max_epochs: 2000
+
+env:
+  config:
+    max_episode_length: ${eval:${agent.config.num_steps} + 1}

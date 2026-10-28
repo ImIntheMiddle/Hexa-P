@@ -1,0 +1,5 @@
+# @package _global_
+# Stage 1 of Hexa-P: joint pre-training of the path predictor and the LocoVal-Head.
+defaults:
+  - /exp/hexap/controller
+  - /agent/hexap/pretrainer

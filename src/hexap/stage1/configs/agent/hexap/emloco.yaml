@@ -1,0 +1,20 @@
+# @package _global_
+# Plausibility estimator of the EmLoco baseline, trained on the same rollouts.
+# It sees the target path at the 2.5 fps of JTA and JRDB; set
+# `agent.config.locoval.config.inputs.pose_mask` to `jta` (JTA, VRU) or `jrdb`.
+
+defaults:
+  - /agent/hexap/pretrainer
+
+agent:
+  _target_: hexap.stage1.agent.EmLocoPretrainer
+  config:
+    enable_pcgrad: false
+    enable_unc_weighting: false
+    batch_size: 256
+    locoval:
+      config:
+        inputs:
+          fps: 2.5
+          pose_mask: jta
+        pretraining: true

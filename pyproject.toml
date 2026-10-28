@@ -1,0 +1,61 @@
+[project]
+name = "hexa-p"
+version = "1.0.0"
+description = "Hexa-P: Physical Plausibility-aware Pre-training for Pedestrian Path Prediction"
+readme = "README.md"
+license = { text = "Apache-2.0 (see README for the files under other licenses)" }
+# Isaac Gym Preview 4 supports Python 3.6 to 3.8.
+requires-python = ">=3.8,<3.9"
+dependencies = [
+    "torch==2.2.0",
+    "lightning==2.3.3",
+    "torchmetrics",
+    "hydra-core==1.3.2",
+    "numpy>=1.24.4,<2",
+    "scipy==1.10.1",
+    "matplotlib==3.6.3",
+    "pandas>=2.0.3",
+    "pyyaml",
+    "tqdm",
+    "rich",
+    "typer",
+    "joblib",
+    "termcolor",
+    "easydict",
+    "scikit-image==0.21.0",
+    "trimesh==4.10.0",
+    "rtree==1.2.0",
+    "transformers>=4.20.1",
+    "tensorboard==2.14.0",
+    "ninja",
+    "wandb==0.23.1",
+    "zarr>=2.16.1",
+    "protomotions",
+    "poselib",
+    "isaac-utils",
+    "smpl-sim",
+    "ipdb",  # imported by the ProtoMotions AMASS conversion script
+    # chumpy-fix is a NumPy >= 1.24 compatible drop-in for chumpy, which loads the SMPL model files.
+    "chumpy-fix==0.0.1",
+]
+
+[project.optional-dependencies]
+# Robot navigation experiment (CrowdNav++ replay with ORCA and Social Force).
+nav = [
+    "gym>=0.22,<0.26",
+    "Cython",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hexap", "src/baselines"]
+
+[tool.uv.sources]
+protomotions = { path = "third_party/protomotions", editable = true }
+poselib = { path = "third_party/protomotions/poselib", editable = true }
+isaac-utils = { path = "third_party/protomotions/isaac_utils", editable = true }
+smpl-sim = { git = "https://github.com/ZhengyiLuo/SMPLSim.git", rev = "b5c08720503ad5fff64050c4d289c42d947fcf8d" }
+

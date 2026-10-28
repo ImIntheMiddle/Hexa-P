@@ -16,6 +16,9 @@ Hexa-P pre-trains a pedestrian path predictor in a physics simulation.
 2. **Stage 2, fine-tuning on real data.** Bottleneck adapters on the frozen Physical Core and Target-relative Positional Encoding (TaPE) adapt the network to multi-agent datasets.
 3. **Inference.** The network predicts path hypotheses with the adapters (Prediction Mode) and scores them without the adapters (Evaluation Mode) to filter out implausible ones.
 
+<p align="center"><img src="assets/pretraining.webp" width="85%" alt="Simulated humanoids walking random target paths in the Stage-1 pre-training"></p>
+<p align="center"><em>Stage 1: simulated humanoids walk random target paths in IsaacGym.</em></p>
+
 ## 🛠️ Installation
 
 Hexa-P uses Python 3.8 (required by Isaac Gym Preview 4) and [uv](https://docs.astral.sh/uv/).

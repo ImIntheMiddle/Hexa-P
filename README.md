@@ -4,7 +4,12 @@
 <sup>1</sup> Toyota Technological Institute, <sup>2</sup> Kyoto Institute of Technology
 **Pattern Analysis and Applications, 2026**
 
-🌐 [Project page](https://iminthemiddle.github.io/Hexa-P-Page/) · 🤗 [Weights and data](https://huggingface.co/ImIntheMiddle/Hexa-P)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue?logo=googlechrome&logoColor=white)](https://iminthemiddle.github.io/Hexa-P-Page/)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights%20%26%20Data-yellow)](https://huggingface.co/ImIntheMiddle/Hexa-P)
+[![Paper](https://img.shields.io/badge/Paper-PDF-b31b1b)](https://iminthemiddle.github.io/static/uploads/Hexa-P_PAA_2026_accepted_manuscript.pdf)
+[![License](https://img.shields.io/badge/License-Apache_2.0-green)](LICENSE)
+[![Python 3.8](https://img.shields.io/badge/Python-3.8-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/release/python-380/)
+[![uv](https://img.shields.io/badge/uv-managed-DE5FE9?logo=uv&logoColor=white)](https://docs.astral.sh/uv/)
 
 <p align="center"><img src="assets/overview.png" width="85%" alt="Overview of Hexa-P"></p>
 

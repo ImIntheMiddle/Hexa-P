@@ -6,6 +6,7 @@
 
 [![Project Page](https://img.shields.io/badge/Project-Page-blue?logo=googlechrome&logoColor=white)](https://iminthemiddle.github.io/Hexa-P-Page/)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights%20%26%20Data-yellow)](https://huggingface.co/ImIntheMiddle/Hexa-P)
+[![Springer](https://img.shields.io/badge/Springer-Article-005A9C)](https://doi.org/10.1007/s10044-026-01804-x)
 [![Paper](https://img.shields.io/badge/Paper-PDF-b31b1b)](https://iminthemiddle.github.io/static/uploads/Hexa-P_PAA_2026_accepted_manuscript.pdf)
 [![License](https://img.shields.io/badge/License-Apache_2.0-green)](LICENSE)
 [![Python 3.8](https://img.shields.io/badge/Python-3.8-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/release/python-380/)
@@ -129,7 +130,11 @@ uv run python -m hexap.data.preprocess vru --source /path/to/vru/pedestrians
   title   = {Hexa-P: Physical Plausibility-aware Pre-training for Pedestrian Path Prediction},
   author  = {Taketsugu, Hiromu and Nobuhara, Shohei and Ukita, Norimichi},
   journal = {Pattern Analysis and Applications},
-  year    = {2026}
+  volume  = {29},
+  number  = {4},
+  pages   = {221},
+  year    = {2026},
+  doi     = {10.1007/s10044-026-01804-x}
 }
 ```
 
